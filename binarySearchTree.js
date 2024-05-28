@@ -111,6 +111,69 @@ class Tree {
       return nodes;
     }
   }
+
+  inOrder(callback, root = this.root, nodes = []) {
+    if (callback) {
+      if (root === null) {
+        return root;
+      }
+      this.inOrder(callback, root.left, nodes);
+      console.log(root.data);
+      callback(root);
+      this.inOrder(callback, root.right, nodes);
+    } else if (!callback) {
+      if (root === null) {
+        return root;
+      }
+      this.inOrder(callback, root.left, nodes);
+      console.log(root.data);
+      nodes.push(root.data);
+      this.inOrder(callback, root.right, nodes);
+      return nodes;
+    }
+  }
+
+  preOrder(callback, root = this.root, nodes = []) {
+    if (callback) {
+      if (root === null) {
+        return root;
+      }
+      console.log(root.data);
+      callback(root);
+      this.preOrder(callback, root.left, nodes);
+      this.preOrder(callback, root.right, nodes);
+    } else if (!callback) {
+      if (root === null) {
+        return root;
+      }
+      console.log(root.data);
+      nodes.push(root.data);
+      this.preOrder(callback, root.left, nodes);
+      this.preOrder(callback, root.right, nodes);
+      return nodes;
+    }
+  }
+
+  postOrder(callback, root = this.root, nodes = []) {
+    if (callback) {
+      if (root === null) {
+        return root;
+      }
+      this.postOrder(callback, root.left, nodes);
+      this.postOrder(callback, root.right, nodes);
+      console.log(root.data);
+      callback(root);
+    } else if (!callback) {
+      if (root === null) {
+        return root;
+      }
+      this.postOrder(callback, root.left, nodes);
+      this.postOrder(callback, root.right, nodes);
+      console.log(root.data);
+      nodes.push(root.data);
+      return nodes;
+    }
+  }
 }
 
 function buildTree(array, start, end) {
@@ -158,4 +221,7 @@ console.log("tree.find(9);", tree.find(9));
 tree.levelOrder((node) => {
   console.log(node);
 });
+tree.inOrder();
+tree.preOrder();
+tree.postOrder();
 prettyPrint(tree.root);
