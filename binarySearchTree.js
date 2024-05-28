@@ -60,7 +60,56 @@ class Tree {
       root.right = this.deleteItem(value, root.right);
     }
 
-    return root;
+    this.root = root;
+  }
+
+  find(value, root = this.root) {
+    if (root === null) {
+      return null;
+    }
+    if (value === root.data) {
+      return root;
+    } else if (value < root.data) {
+      return this.find(value, root.left);
+    } else if (value > root.data) {
+      return this.find(value, root.right);
+    }
+  }
+
+  levelOrder(callback, root = this.root) {
+    const array = [];
+    array.push(root);
+    if (callback) {
+      if (root === null) {
+        return null;
+      }
+      while (array.length !== 0) {
+        const current = array.shift();
+        callback(current);
+        if (current.left !== null) {
+          array.push(current.left);
+        }
+        if (current.right !== null) {
+          array.push(current.right);
+        }
+      }
+    } else if (!callback) {
+      if (root === null) {
+        return null;
+      }
+      const nodes = [];
+      while (array.length !== 0) {
+        const current = array.shift();
+        nodes.push(current);
+        if (current.left !== null) {
+          array.push(current.left);
+        }
+        if (current.right !== null) {
+          array.push(current.right);
+        }
+      }
+      return nodes;
+    }
   }
 }
 
@@ -71,8 +120,8 @@ function buildTree(array, start, end) {
   let mid = Math.floor((start + end) / 2);
   let node = new Node(array[mid]);
 
-  node.right = buildTree(array, mid + 1, end);
   node.left = buildTree(array, start, mid - 1);
+  node.right = buildTree(array, mid + 1, end);
 
   return node;
 }
@@ -96,7 +145,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-let tree = new Tree([37, 12, 89, 45, 23, 78, 56, 3, 92, 31]);
+let tree = new Tree([1, 2, 3, 4, 5]);
 prettyPrint(tree.root);
 tree.insert(9);
 tree.insert(8);
@@ -104,4 +153,9 @@ tree.insert(2);
 
 prettyPrint(tree.root);
 tree.deleteItem(3);
+tree.find(9);
+console.log("tree.find(9);", tree.find(9));
+tree.levelOrder((node) => {
+  console.log(node);
+});
 prettyPrint(tree.root);
