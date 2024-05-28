@@ -358,12 +358,12 @@ function treeDriver(treeClass) {
   tree.postOrder();
   console.log("In Order:");
   tree.inOrder();
-  tree.insert(235);
-  tree.insert(335);
-  tree.insert(435);
-  tree.insert(105);
-  tree.insert(123);
-  tree.insert(223);
+  tree.insert(Math.floor(Math.random() * 1000) + 1);
+  tree.insert(Math.floor(Math.random() * 1000) + 1);
+  tree.insert(Math.floor(Math.random() * 1000) + 1);
+  tree.insert(Math.floor(Math.random() * 1000) + 1);
+  tree.insert(Math.floor(Math.random() * 1000) + 1);
+  tree.insert(Math.floor(Math.random() * 1000) + 1);
   prettyPrint(tree.root);
   console.log("Tree is now unbalanced!");
   console.log("Is your tree balanced?", tree.isBalanced());
