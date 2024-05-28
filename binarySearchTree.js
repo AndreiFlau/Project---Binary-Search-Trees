@@ -174,6 +174,77 @@ class Tree {
       return nodes;
     }
   }
+
+  height(node, root = this.root, height = 0) {
+    let depthOfNodes = this.depthOfEveryNode();
+    let deepestNode = depthOfNodes.reduce(
+      (max, obj) => (max.depth > obj.depth ? max : obj),
+      depthOfNodes[0]
+    );
+    let targetNode = depthOfNodes.find((obj) => obj.node === node);
+    if (node === root) {
+      height = deepestNode.depth;
+      return height;
+    }
+    if (root === null) {
+      return null;
+    } else if (node === root.data && root.left === null && root.right === null) {
+      height = 0;
+      return height;
+    } else if (node < root.data) {
+      height += 1;
+      return this.height(node, root.left, height);
+    } else if (node > root.data) {
+      height += 1;
+      return this.height(node, root.right, height);
+    } else {
+      height = deepestNode.depth - targetNode.depth;
+      return height;
+    }
+    // }
+    // if (node === root.data && root.left === null && root.right === null) {
+    //   height = 0;
+    //   return height;
+    // } else if (node < root.data) {
+    //   height += 1;
+    //   return this.height(node, root.left, height);
+    // } else if (node > root.data) {
+    //   height += 1;
+    //   return this.height(node, root.right, height);
+    // }
+    // height -= 1;
+    return height;
+  }
+
+  depth(node, root = this.root, depth = 0) {
+    if (root === null) {
+      return null;
+    }
+    if (node === root.data) {
+      return depth;
+    } else if (node < root.data) {
+      depth += 1;
+      return this.depth(node, root.left, depth);
+    } else if (node > root.data) {
+      depth += 1;
+      return this.depth(node, root.right, depth);
+    }
+    return depth;
+  }
+
+  depthOfEveryNode(nodes = [], root = this.root, depth = 0) {
+    if (root === null) {
+      return null;
+    }
+
+    // depth += 1;
+    nodes.push({ node: root.data, depth: depth });
+    depth += 1;
+    this.depthOfEveryNode(nodes, root.left, depth);
+    this.depthOfEveryNode(nodes, root.right, depth);
+    // nodes.push({ Root: root.data, Depth: depth });
+    return nodes;
+  }
 }
 
 function buildTree(array, start, end) {
@@ -225,3 +296,6 @@ tree.inOrder();
 tree.preOrder();
 tree.postOrder();
 prettyPrint(tree.root);
+tree.depthOfEveryNode();
+console.log("tree.depth(2);", tree.depth(2));
+console.log("tree.height(5);", tree.height(5));
